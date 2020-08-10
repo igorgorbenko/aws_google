@@ -1,0 +1,9 @@
+.terraform
+.vscode
+*.pth
+*zip
+*.pyc
+*.pickle
+/temp/*
+*.tfstate*
+*creds.json*
