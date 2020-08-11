@@ -32,12 +32,12 @@ resource "aws_lambda_layer_version" "google_api" {
 }
 
 #-----------------------------------------------------------
-# LAMBDA FUNCTION
+# LAMBDA FUNCTION: authorization_lambda
 #-----------------------------------------------------------
 data "archive_file" "authorization_zip" {
   source_file = "../${path.module}/lambda/authorization_lambda.py"
   type        = "zip"
-  output_path = "../${path.module}/lambda/authorization_lambdazip"
+  output_path = "../${path.module}/lambda/authorization_lambda.zip"
 }
 
 resource "aws_lambda_function" "authorization" {
@@ -61,6 +61,28 @@ resource "aws_lambda_function" "authorization" {
   tags = var.default_tags
 }
 
+#-----------------------------------------------------------
+# LAMBDA FUNCTION: google_contacts_lambda
+#-----------------------------------------------------------
 
+data "archive_file" "google_api_zip" {
+  source_file = "../${path.module}/lambda/google_contacts_lambda.py"
+  type        = "zip"
+  output_path = "../${path.module}/lambda/google_contacts_lambda.zip"
+}
 
-# google_contacts_lambda
+resource "aws_lambda_function" "google_api" {
+  function_name    = format("%s_%s", var.object_prefix, "google_contacts_lambda")
+  filename         = data.archive_file.google_api_zip.output_path
+  source_code_hash = data.archive_file.google_api_zip.output_base64sha256
+
+  role        = aws_iam_role.google_api_lambda_role.arn
+  handler     = "google_contacts_lambda.lambda_handler"
+  runtime     = local.runtime
+  timeout     = 60
+  memory_size = 128
+
+  layers = [aws_lambda_layer_version.google_api.arn]
+
+  tags = var.default_tags
+}
