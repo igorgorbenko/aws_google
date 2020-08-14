@@ -17,3 +17,7 @@ variable "default_tags" {
 variable "object_prefix" {
   default = "show"
 }
+
+variable "cognito_user_pool_name" {
+  type = string
+}

@@ -35,9 +35,9 @@ resource "aws_lambda_layer_version" "google_api" {
 # LAMBDA FUNCTION: authorization_lambda
 #-----------------------------------------------------------
 data "archive_file" "authorization_zip" {
-  source_file = "../${path.module}/lambda/authorization_lambda.py"
+  source_file = "../${path.module}/temp/lambda/src/authorization_lambda.py"
   type        = "zip"
-  output_path = "../${path.module}/lambda/authorization_lambda.zip"
+  output_path = "../${path.module}/temp/lambda/zip/authorization_lambda.zip"
 }
 
 resource "aws_lambda_function" "authorization" {
