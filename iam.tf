@@ -51,6 +51,10 @@ resource "aws_iam_role_policy_attachment" "authorizer_lambda" {
   policy_arn = aws_iam_policy.authorizer_lambda_policy.arn
 }
 
+resource "aws_iam_role_policy_attachment" "authorizer_lambda_2" {
+  role       = aws_iam_role.authorizer_lambda_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
 
 #--------------------------------------------------------------
 # AWS Lambda Roles: GoogleAPI_Role

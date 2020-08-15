@@ -1,5 +1,4 @@
 """Google API helper module"""
-import os
 import json
 from datetime import datetime
 
@@ -15,14 +14,12 @@ class GoogleApiHelper:
                              credentials=creds,
                              cache_discovery=False)
 
-
     @staticmethod
     def datetime_serializer(obj):
         """Serialize datetime to string"""
 
         if isinstance(obj, datetime):
             return obj.strftime("%Y-%m-%dT%H:%M:%SZ")
-
 
     @staticmethod
     def build_response(status_code, body):
@@ -31,9 +28,9 @@ class GoogleApiHelper:
         return {
             "statusCode": status_code,
             'headers': {'Content-Type': 'application/json'},
-            "body": json.dumps(body, default=GoogleApiHelper.datetime_serializer)
+            "body": json.dumps(body,
+                               default=GoogleApiHelper.datetime_serializer)
         }
-
 
     def get_contact_list(self, num_items=10):
         """Return a list of contacts"""
@@ -52,8 +49,8 @@ class GoogleApiHelper:
                 name = names[0].get('displayName')
                 items['items'].append(name)
 
-        return GoogleApiHelper.build_response(200, {'google_api_response': items})
-
+        return GoogleApiHelper.build_response(200,
+                                              {'google_api_response': items})
 
     def add_new_contact(self, **kwargs):
         """Add a new contact record"""
@@ -84,4 +81,5 @@ class GoogleApiHelper:
                     .createContact(body=new_contact)
                     .execute())
 
-        return GoogleApiHelper.build_response(200, {'google_api_response': response})
+        return GoogleApiHelper.build_response(200,
+                                              {'google_api_response': response})

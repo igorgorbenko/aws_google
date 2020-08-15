@@ -8,9 +8,10 @@ from datetime import datetime
 LOGGER = logging.getLogger()
 LOGGER.setLevel(logging.INFO)
 
-USER_POOL_ID = os.environ.get('USER_POOL_ID')
+COGNITO_REGION = os.environ.get('COGNITO_REGION')
 CLIENT_ID = os.environ.get('CLIENT_ID')
 
+boto3.setup_default_session(region_name=COGNITO_REGION)
 COGNITO = boto3.client('cognito-idp')
 
 
@@ -68,13 +69,13 @@ class CognitoAuth:
 
 
 def datetime_serializer(obj):
-    """Serialize datetime to string."""
+    """Serialize datetime to string"""
     if isinstance(obj, datetime):
         return obj.strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def build_response(status_code, body):
-    """Build http response."""
+    """Build http response"""
     return {
         "statusCode": status_code,
         'headers': {'Content-Type': 'application/json'},
@@ -83,12 +84,13 @@ def build_response(status_code, body):
 
 
 def build_error_response(error_message, status_code=400):
-    """Build error http response."""
+    """Build error http response"""
     return build_response(status_code, {'Error': error_message})
 
 
 def get_credentials_from_event(event):
     """Get passed credentials from the event."""
+
     username = event.get('username')
     password = event.get('password')
     refresh_token = event.get('refresh_token')
