@@ -27,7 +27,7 @@ variable "object_prefix" {
 # }
 
 variable "cognito_user_pool_client_id" {
-  default = ""
+  default = "342v85bdi58gl347assbvgp5b6"
 }
 
 variable "cognito_region" {
