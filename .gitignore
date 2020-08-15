@@ -7,3 +7,5 @@
 /temp/*
 *.tfstate*
 *creds.json*
+/setup/lambda
+/setup/layer*
