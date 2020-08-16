@@ -108,3 +108,8 @@ resource "aws_iam_role_policy_attachment" "google_api_lambda_lambda" {
   policy_arn = aws_iam_policy.google_api_lambda_role_policy.arn
 }
 
+resource "aws_iam_role_policy_attachment" "google_api_lambda_lambda_2" {
+  role       = aws_iam_role.google_api_lambda_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
+}
+

@@ -27,10 +27,13 @@ variable "object_prefix" {
 # }
 
 variable "cognito_user_pool_client_id" {
-  default = "342v85bdi58gl347assbvgp5b6"
+  default = "2qdp9a19798t1355drvm60gnj7"
 }
 
 variable "cognito_region" {
   default = "us-east-1"
 }
 
+variable "log_table_name" {
+  default = "google_log_table"
+}

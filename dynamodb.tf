@@ -2,7 +2,7 @@
 # Log table
 #--------------------------------------------------------------
 resource "aws_dynamodb_table" "log_table" {
-  name           = format("%s_%s", var.object_prefix, "google_log_table")
+  name           = format("%s_%s", var.object_prefix, var.log_table_name)
   read_capacity  = 2
   write_capacity = 2
   hash_key       = "task_id"

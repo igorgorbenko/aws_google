@@ -8,6 +8,7 @@ locals {
   ]
 
   google_list_lambda_files = [
+    "${path.module}/helpers/dynamo_db_helper.py",
     "${path.module}/helpers/google_api_helper.py",
     "${path.module}/lambda/google_contacts_list.py"
   ]
@@ -87,7 +88,7 @@ resource "aws_lambda_function" "authorization" {
 
   environment {
     variables = {
-      COGNITO_REGION = var.cognito_region
+      # COGNITO_REGION = var.cognito_region
       CLIENT_ID      = var.cognito_user_pool_client_id
     }
   }
@@ -136,6 +137,12 @@ resource "aws_lambda_function" "contacts_add" {
   memory_size = 128
 
   layers = [aws_lambda_layer_version.google_api.arn]
+
+  environment {
+    variables = {
+      LOG_TABLE_NAME = format("%s_%s", var.object_prefix, var.log_table_name)
+    }
+  }
 
   tags = var.default_tags
 }

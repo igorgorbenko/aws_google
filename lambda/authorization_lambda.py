@@ -11,7 +11,8 @@ LOGGER.setLevel(logging.INFO)
 COGNITO_REGION = os.environ.get('COGNITO_REGION')
 CLIENT_ID = os.environ.get('CLIENT_ID')
 
-boto3.setup_default_session(region_name=COGNITO_REGION)
+if COGNITO_REGION:
+    boto3.setup_default_session(region_name=COGNITO_REGION)
 COGNITO = boto3.client('cognito-idp')
 
 
